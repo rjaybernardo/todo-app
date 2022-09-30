@@ -16,3 +16,26 @@
   ```
   npm install @mui/material @emotion/react @emotion/styled
   ```
+- Add fire store
+
+  ```
+  npm install firebase
+  ```
+
+  ```
+  import { initializeApp } from "firebase/app";
+  import { getFirestore } from 'firebase/firestore';
+
+  const firebaseConfig = {
+    .......................
+  };
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getFirestore(firebaseApp);
+  export { db }
+  ```
+
+- From firebase
+  - Go to console > Select Firebase Project
+  - Cloud Firestore
+  - Start Collection
+    - todos

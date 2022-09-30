@@ -1,17 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button } from '@mui/material'
 import Todo from './components/Todo'
+import { db } from './firebase.js'
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
 import './App.css'
+const q = query(collection(db, 'todos'), orderBy('timestamp', 'desc'))
 
-function App() {
-  const [todos, setTodos] = useState([
-    'Create Blockchain App',
-    'Create a Youtube Tutorial',
-  ])
+const App = () => {
+  const [todos, setTodos] = useState([])
   const [input, setInput] = useState('')
+  useEffect(() => {
+    onSnapshot(q, (snapshot) => {
+      setTodos(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          item: doc.data(),
+        }))
+      )
+    })
+  }, [input])
   const addTodo = (e) => {
     e.preventDefault()
-    setTodos([...todos, input])
+    addDoc(collection(db, 'todos'), {
+      todo: input,
+      timestamp: serverTimestamp(),
+    })
     setInput('')
   }
   return (
@@ -32,8 +52,8 @@ function App() {
         </Button>
       </form>
       <ul>
-        {todos.map((todo) => (
-          <Todo todo={todo} />
+        {todos.map((item) => (
+          <Todo key={item.id} arr={item} />
         ))}
       </ul>
     </div>
