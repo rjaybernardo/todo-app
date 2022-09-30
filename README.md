@@ -5,6 +5,14 @@
 - Create firebase.js in the src/
 - Install firebase
 
-```
-npm install firebase
-```
+  ```
+  npm install firebase
+  ```
+
+- Install Material UI
+  ```
+  npm install @mui/icons-material
+  ```
+  ```
+  npm install @mui/material @emotion/react @emotion/styled
+  ```
